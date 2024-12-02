@@ -1,36 +1,51 @@
+import { IProduct } from "@/interfaces/product";
+import { Link, useNavigation, useRouter } from "expo-router";
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ThemedText } from "./ThemedText";
 
-export function Card() {
+type cardProps = {
+  infos: IProduct;
+};
+
+export function Card({ infos }: cardProps) {
+  const router = useRouter(); // Hook para navegação
+  const { name, price, tag, category, color, id } = infos;
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity
+      style={styles.cardContainer}
+      onPress={() => router.push(`./product/${id}`)}
+    >
+      {/* <View style={styles.cardContainer}> */}
       <View style={styles.imageContainer}>
         <Image
           source={require("../assets/images/camisaNike.png")}
           style={styles.image}
         />
       </View>
-      <View>
-        <Text style={styles.title}>Camiseta Nike</Text>
-        <Text style={styles.title}>Algodão Masculina</Text>
+      <View style={{ padding: 5 }}>
+        <View>
+          <ThemedText style={styles.title}>{name} dddddd</ThemedText>
+          <ThemedText style={styles.title}>{tag}</ThemedText>
+        </View>
+        <View style={styles.detailsGroup}>
+          <ThemedText style={styles.details}>{category}</ThemedText>
+          <ThemedText style={styles.details}>{color}</ThemedText>
+        </View>
+        <ThemedText style={styles.price}>
+          R$ {price} <ThemedText style={styles.pix}>no Pix</ThemedText>
+        </ThemedText>
       </View>
-      <View style={styles.detailsGroup}>
-        <Text style={styles.details}>Casual</Text>
-        <Text style={styles.details}>Preta</Text>
-      </View>
-      <Text style={styles.price}>
-        R$ 150,00 <Text style={styles.pix}>no Pix</Text>
-      </Text>
-    </View>
+      {/* </View> */}
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   cardContainer: {
     display: "flex",
-    width: 215,
+    width: "45%",
     height: 380,
-    marginBottom: 6,
   },
   imageContainer: {
     height: 250,
@@ -42,7 +57,6 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   title: {
-    color: "black",
     fontWeight: "bold",
     fontSize: 16,
   },
@@ -51,7 +65,6 @@ const styles = StyleSheet.create({
   },
   details: {
     fontSize: 13,
-    color: "#666666",
   },
   price: {
     fontSize: 17,
