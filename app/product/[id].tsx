@@ -1,23 +1,40 @@
+import { Collapsible } from "@/components/Collapsible";
+import Divider from "@/components/Divider";
+import Rating from "@/components/Rating";
 import { ThemedText } from "@/components/ThemedText";
 import FavoriteIcon from "@/icons/FavoriteIcon";
 import { IProduct } from "@/interfaces/product";
 import { productsMock } from "@/mocks/productMock";
-import { useLocalSearchParams } from "expo-router";
+import { reviewMock } from "@/mocks/reviewMock";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
+  findNodeHandle,
   Image,
+  LayoutAnimation,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 
 const ProductScreen = () => {
   const { id } = useLocalSearchParams();
   const [product, setProduct] = useState<IProduct | undefined>();
+  const mainReviews = reviewMock.slice(0, 5);
+  const reviewLength = reviewMock.length;
 
   const scrollViewRef = useRef<ScrollView>(null);
+  const collapsibleRef = useRef<View>(null);
+  const router = useRouter(); // Hook para navegação
+
+  const handleOpenReview = async () => {
+    collapsibleRef.current?.measureInWindow((x, y, width, height) => {
+      scrollViewRef.current?.scrollTo({ y: y / 3, animated: true });
+    });
+  };
 
   useEffect(() => {
     if (!Array.isArray(id)) {
@@ -77,6 +94,39 @@ const ProductScreen = () => {
         <Pressable style={{ ...styles.buttons, ...styles.addToCart }}>
           <Text style={styles.buttonText}>Adicionar ao carrinho</Text>
         </Pressable>
+      </View>
+      <Divider width={3} color="white" dividerStyle={{ marginTop: 22 }} />
+
+      <View style={{ flex: 1, padding: 25 }}>
+        <Collapsible
+          title={`Avaliações (${reviewLength})`}
+          onTouch={handleOpenReview}
+          referencia={collapsibleRef}
+        >
+          <View style={{ display: "flex", gap: 15 }}>
+            {mainReviews.map((review, index) => (
+              <React.Fragment key={index}>
+                <Rating review={review} />
+                <Divider color="#bebebe" dividerStyle={{ marginTop: 3 }} />
+              </React.Fragment>
+            ))}
+            <TouchableOpacity>
+              <Pressable
+                onPress={() => router.push(`/product/otherReviews`)}
+                style={{
+                  alignSelf: "flex-start",
+                  padding: 10,
+                  borderWidth: 2,
+                  borderColor: "#8b8b8b94",
+                  borderRadius: 7,
+                  marginVertical: 10,
+                }}
+              >
+                <Text style={{ fontWeight: "500" }}>Ver mais avaliações</Text>
+              </Pressable>
+            </TouchableOpacity>
+          </View>
+        </Collapsible>
       </View>
     </ScrollView>
   );
