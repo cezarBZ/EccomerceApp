@@ -1,6 +1,4 @@
 import { Stack } from "expo-router";
-import { useEffect } from "react";
-import { Text, View } from "react-native";
 
 export default function ProductLayout() {
   return (
@@ -10,16 +8,16 @@ export default function ProductLayout() {
         options={{
           headerShown: true,
           headerShadowVisible: false,
-          headerTitle: ""
+          headerTitle: "",
         }}
       />
       <Stack.Screen
-        name="otherReviews"
+        name="allReviews"
         options={{
           headerShown: true,
           headerBackTitle: "teste",
           headerShadowVisible: false,
-          headerTitle: ""
+          headerTitle: "",
         }}
       />
     </Stack>

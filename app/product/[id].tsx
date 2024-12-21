@@ -112,7 +112,7 @@ const ProductScreen = () => {
             ))}
             <TouchableOpacity>
               <Pressable
-                onPress={() => router.push(`/product/otherReviews`)}
+                onPress={() => router.push(`/product/allReviews`)}
                 style={{
                   alignSelf: "flex-start",
                   padding: 10,
@@ -122,7 +122,7 @@ const ProductScreen = () => {
                   marginVertical: 10,
                 }}
               >
-                <Text style={{ fontWeight: "500" }}>Ver mais avaliações</Text>
+                <Text style={{ fontWeight: "500" }}>Ver todas as avaliações</Text>
               </Pressable>
             </TouchableOpacity>
           </View>
