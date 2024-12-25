@@ -6,6 +6,7 @@ import FavoriteIcon from "@/icons/FavoriteIcon";
 import { IProduct } from "@/interfaces/product";
 import { productsMock } from "@/mocks/productMock";
 import { reviewMock } from "@/mocks/reviewMock";
+import { useShoppingCartStore } from "@/stores/shoppingCartStore";
 import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -29,6 +30,7 @@ const ProductScreen = () => {
   const scrollViewRef = useRef<ScrollView>(null);
   const collapsibleRef = useRef<View>(null);
   const router = useRouter(); // Hook para navegação
+  const { addItem } = useShoppingCartStore();
 
   const handleOpenReview = async () => {
     collapsibleRef.current?.measureInWindow((x, y, width, height) => {
@@ -91,7 +93,10 @@ const ProductScreen = () => {
             Comprar agora
           </Text>
         </Pressable>
-        <Pressable style={{ ...styles.buttons, ...styles.addToCart }}>
+        <Pressable
+          style={{ ...styles.buttons, ...styles.addToCart }}
+          onPress={() => addItem(product)}
+        >
           <Text style={styles.buttonText}>Adicionar ao carrinho</Text>
         </Pressable>
       </View>
@@ -122,7 +127,9 @@ const ProductScreen = () => {
                   marginVertical: 10,
                 }}
               >
-                <Text style={{ fontWeight: "500" }}>Ver todas as avaliações</Text>
+                <Text style={{ fontWeight: "500" }}>
+                  Ver todas as avaliações
+                </Text>
               </Pressable>
             </TouchableOpacity>
           </View>

@@ -2,10 +2,11 @@ import { IProduct } from "@/interfaces/product";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import CartItemCounter from "./CartItemCounter";
-import TrashIcon from "@/icons/TrashIcon";
+import TrashButton from "@/components/TrashButton";
+import { CartProduct } from "@/stores/shoppingCartStore";
 
 type cartItemProps = {
-  product: IProduct;
+  product: CartProduct;
 };
 
 const CartItem = ({ product }: cartItemProps) => (
@@ -16,14 +17,14 @@ const CartItem = ({ product }: cartItemProps) => (
         style={styles.image}
       />
     </View>
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <View>
         <Text style={styles.name}>{product.name}</Text>
         <Text style={styles.price}>R$ {product.price}</Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <CartItemCounter />
-        <TrashIcon />
+        <CartItemCounter itemQuantity={product.quantity} itemId={product.id} />
+        <TrashButton itemId={product.id} />
       </View>
     </View>
   </View>
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     gap: 25,
+    paddingHorizontal: 10,
   },
   imageContainer: {
     padding: 5,
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "space-between",
-    marginBottom: 10
+    marginBottom: 10,
   },
 });
 
