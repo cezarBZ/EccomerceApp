@@ -93,12 +93,12 @@ const ProductScreen = () => {
             Comprar agora
           </Text>
         </Pressable>
-        <Pressable
+        <TouchableOpacity
           style={{ ...styles.buttons, ...styles.addToCart }}
           onPress={() => addItem(product)}
         >
           <Text style={styles.buttonText}>Adicionar ao carrinho</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
       <Divider width={3} color="white" dividerStyle={{ marginTop: 22 }} />
 
